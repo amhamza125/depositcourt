@@ -1,0 +1,40 @@
+{
+  "contract": "0x3F46DbbA110Bf42EdE496f88e4a200392d9B2195",
+  "version": "v1.1",
+  "steps": [
+    {
+      "name": "DepositCourt",
+      "pass": true,
+      "paused": false,
+      "owner": "0xd2af69bb67d446526661a80a280820599c601ed3",
+      "powner": "",
+      "ncase": "0",
+      "fee_wei": "100000000000000",
+      "appeal_bond_wei": "100000000000000",
+      "lockw": "0",
+      "bondw": "0",
+      "tcw": "0",
+      "tpw": "0",
+      "contract_balance_wei": "0"
+    },
+    {
+      "name": "case0_created",
+      "pass": true
+    },
+    {
+      "name": "case0_funded",
+      "pass": true
+    },
+    {
+      "name": "case0_evidence",
+      "pass": true
+    },
+    {
+      "name": "case0_settled_split",
+      "pass": true,
+      "tenant": "40000000000000000",
+      "landlord": "10000000000000000"
+    }
+  ],
+  "attacks": []
+}

@@ -1,0 +1,292 @@
+{
+  "contract": "0x420447DD4a4d6561b6e579C61a18262C5d891254",
+  "steps": [
+    {
+      "name": "DepositCourt",
+      "pass": true,
+      "paused": false,
+      "owner": "0xd2af69bb67d446526661a80a280820599c601ed3",
+      "powner": "",
+      "ncase": "1",
+      "fee_wei": "100000000000000",
+      "appeal_bond_wei": "100000000000000",
+      "lockw": "0",
+      "bondw": "0",
+      "tcw": "0",
+      "tpw": "0",
+      "contract_balance_wei": "0"
+    },
+    {
+      "name": "case0_created",
+      "pass": true
+    },
+    {
+      "name": "case0_funded",
+      "pass": true
+    },
+    {
+      "name": "case0_evidence",
+      "pass": true
+    },
+    {
+      "name": "case0_settled_split",
+      "pass": true,
+      "tenant": "40000000000000000",
+      "landlord": "10000000000000000"
+    },
+    {
+      "name": "conservation_case0_settled",
+      "pass": true,
+      "balance": "50000000000000000",
+      "accounted": "50000000000000000"
+    },
+    {
+      "name": "case0_tenant_payout",
+      "pass": true,
+      "contractDelta": "-40000000000000000",
+      "tenantDelta": "39862535529998706"
+    },
+    {
+      "name": "case0_landlord_payout_and_closed",
+      "pass": true,
+      "status": "CLOSED"
+    },
+    {
+      "name": "conservation_case0_closed",
+      "pass": true,
+      "balance": "0",
+      "accounted": "0"
+    },
+    {
+      "name": "case1_funded_by_tenant",
+      "pass": true
+    },
+    {
+      "name": "case1_evidence_complete",
+      "pass": true
+    },
+    {
+      "name": "case1_landlord_revision_supersedes_tenant",
+      "pass": true,
+      "tenantMsgStamp": 2,
+      "landlordStamp": 3
+    },
+    {
+      "name": "case1_tenant_refiled_live",
+      "pass": true
+    },
+    {
+      "name": "conservation_case1_staged",
+      "pass": true,
+      "balance": "50000000000000000",
+      "accounted": "50000000000000000"
+    },
+    {
+      "name": "case2_wrong_amount_credited",
+      "pass": true,
+      "claimable": "3000000000000000"
+    },
+    {
+      "name": "case2_stray_recovered_exact",
+      "pass": true
+    },
+    {
+      "name": "case2_outsider_fund_credited",
+      "pass": true,
+      "claimable": "50000000000000000"
+    },
+    {
+      "name": "case2_outsider_recovered_exact",
+      "pass": true
+    },
+    {
+      "name": "conservation_case2_clean",
+      "pass": true,
+      "balance": "50000000000000000",
+      "accounted": "50000000000000000"
+    },
+    {
+      "name": "case3_photos_present",
+      "pass": true
+    },
+    {
+      "name": "unpaused",
+      "pass": true
+    },
+    {
+      "name": "conservation_final",
+      "pass": true,
+      "balance": "100000000000000000",
+      "accounted": "100000000000000000"
+    },
+    {
+      "name": "DepositCourt",
+      "pass": true,
+      "paused": false,
+      "owner": "0xd2af69bb67d446526661a80a280820599c601ed3",
+      "powner": "",
+      "ncase": "4",
+      "fee_wei": "100000000000000",
+      "appeal_bond_wei": "100000000000000",
+      "lockw": "100000000000000000",
+      "bondw": "0",
+      "tcw": "0",
+      "tpw": "0",
+      "contract_balance_wei": "100000000000000000"
+    }
+  ],
+  "attacks": [
+    {
+      "name": "freeze_during_challenge_window",
+      "code": "CHALLENGE_OPEN",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0xb0cf943e20c111671ef6a9a62145600338057d25629b252a925cd3a5f70ffd47"
+    },
+    {
+      "name": "second_landlord_revision_locked",
+      "code": "EVIDENCE_LOCKED",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x2c3d39a9da8d36fd5e83f06e03717c7e50ad04bbd9586674539c138c6986bc86"
+    },
+    {
+      "name": "schedule_before_lease",
+      "code": "LEASE_REQUIRED",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x4058bae55c5f3ac19c9d99c7766171b1fdcf0caff5f7e02c87cf6362c2cc2aa3"
+    },
+    {
+      "name": "schedule_by_tenant",
+      "code": "ONLY_LANDLORD",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x1fe35c2b2969222f51524ace8e7820ace18cfaaf274588c96056c762b606650e"
+    },
+    {
+      "name": "outsider_submit_lease",
+      "code": "ONLY_PARTY",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x27293bd4f48966b5d023f12fd43bd7e71592e39ef6d58be79d656622dfbc90b4"
+    },
+    {
+      "name": "assess_before_freeze",
+      "code": "NOT_FROZEN",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x93736623556911e4f92d987c8ab369138ec2a16910c7a16f52182b0f21c68482"
+    },
+    {
+      "name": "release_without_verdict",
+      "code": "BAD_STATUS",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x038349e0c5960e4c5596d21549c347e7f95e71e9e4beb116ab1d933fe714aec7"
+    },
+    {
+      "name": "claim_without_pot",
+      "code": "NO_CLAIM",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x66ba81d2a5acf30a45e1a9f21b5fef0b3315591bd7289b67516b590187ffd6f3"
+    },
+    {
+      "name": "confirm_without_pending",
+      "code": "NO_PENDING",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x46683fc98b434512536dbe1f6ad06f604dc96b7d3ed95581caa2306b7af757ae"
+    },
+    {
+      "name": "restore_by_non_owner",
+      "code": "ONLY_OWNER",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0xad14d21704e5686a2273e81253e9f01a60fa2321f4e8a9dd85c574ae36f619bb"
+    },
+    {
+      "name": "sweep_by_non_owner",
+      "code": "ONLY_OWNER",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x57bcd971fd3cca1a3bcde2ff09184c61b5df7e3ba4b8a87f56afec99690f69b0"
+    },
+    {
+      "name": "sweep_without_excess",
+      "code": "NO_EXCESS",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x63d93b425fd4e09a6aa2846cc8ef28651f44daeb3e2cf13dc9edc206af94b42f"
+    },
+    {
+      "name": "cancel_by_non_creator",
+      "code": "ONLY_CREATOR",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x1eb94c2e7225e1cb9f56f57f516dc3fbbad43509b52488318b039773782be149"
+    },
+    {
+      "name": "expire_fresh_case",
+      "code": "NOT_EXPIRED",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0xcfff20d8368061aadb6c0acf5c7e2e6e8f910eb458f44a0849b997d012838d99"
+    },
+    {
+      "name": "settlement_bad_split",
+      "code": "BAD_SPLIT",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0xaa5f85be7707264b79c98b58a26528a3db594e19dba0a1f7a2e192fe6b51c179"
+    },
+    {
+      "name": "accept_own_offer",
+      "code": "BAD_STATUS",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0xb1511ffbec190a62521a2204be2a97d07ff8487ab7652c89f0c9b8f3d05ee4c5"
+    },
+    {
+      "name": "accept_by_outsider",
+      "code": "ONLY_PARTY",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x218b04b6b7d0f38f6afc4d0edd9713c6634db17075f05fa1472a820011a430eb"
+    },
+    {
+      "name": "pause_by_non_owner",
+      "code": "ONLY_OWNER",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0xb9728b398cc0990be7471c272c73a5841f9bd6ee598d216cb46d7645ed6e8794"
+    },
+    {
+      "name": "create_while_paused",
+      "code": "PROTOCOL_PAUSED",
+      "pass": true,
+      "execName": "FINISHED_WITH_ERROR",
+      "codeInReceipt": false,
+      "tx": "0x80ed91fd4e6090620b2eb8ccc1cb326661e5f3c0fd46f8b4475983b7f490e3ff"
+    }
+  ]
+}
