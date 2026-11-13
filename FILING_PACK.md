@@ -14,28 +14,9 @@ DepositCourt — rental deposits decided by an AI jury, paid on chain
 ## Description
 
 ```
-DepositCourt is an Intelligent Contract on GenLayer Bradbury that settles
-rental deposit disputes. The tenant's deposit is locked in the contract.
-At the end of the tenancy the landlord files deduction claims, and an AI
-jury decides each claim from the lease, the parties' messages, and the
-move-in and move-out photo pairs. Every photo and document is bound by
-SHA-256 when it is filed, and the contract verifies the hash of the bytes
-the jury actually sees. The landlord gets one evidence revision, the
-tenant gets a fresh challenge window after it, and the losing side can
-appeal once for a blind second assessment. The verdict splits the deposit
-by fixed buckets, and each party withdraws their own share — payouts are
-proven by exact balance changes, not by receipts saying success.
+DepositCourt is an Intelligent Contract on GenLayer Bradbury for rental deposit disputes. The tenant's deposit is locked in the contract. At tenancy end the landlord files deduction claims, and an AI jury decides each claim from the lease, both parties' messages, and move-in/move-out photo pairs. All evidence is SHA-256 bound when filed; the contract verifies the hash of the bytes the jury sees. The landlord gets one evidence revision, the tenant a challenge window after it, and the loser can appeal once for a blind second assessment. Verdicts split the deposit by fixed buckets; each party withdraws their own share.
 
-What is live and verifiable: the full settlement lifecycle ran on chain
-with wei-exact payouts (0.05 GEN case, tenant 0.04 / landlord 0.01, case
-closed, contract back to zero for it). 19 out of 19 attack attempts were
-blocked live. The AI jury has recorded verdicts on chain for the
-wall-stain claim — TENANT_DAMAGE at bucket 100 under clause 7 — on a
-fast-clock twin of the production contract and on a verbatim replica of
-the production jury, with byte-identical verdict lines. Fund conservation
-held at every checkpoint: the contract balance always equals locked +
-bonds + claimable + pending, and time-based exits mean no deposit can be
-stranded, even if a party disappears or a jury round has to be retried.
+Live and verifiable: a full settlement ran on chain with wei-exact payouts (0.05 GEN case: tenant 0.04, landlord 0.01, closed). 19 of 19 attacks were blocked live. The jury recorded verdicts on chain (wall-stain claim: TENANT_DAMAGE, bucket 100, clause 7), byte-identical across two independent jury runs. Conservation held at every checkpoint; no deposit can be stranded.
 ```
 
 ## Evidence links
