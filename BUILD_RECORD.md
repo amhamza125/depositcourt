@@ -312,3 +312,78 @@ tests/twin-retry-loop.mjs, tests/twin-retry-c1.mjs, tests/twin-arc-results.json,
 tests/twin-arc2-results.json, tests/twin-retry-results.json (all 74 loop
 attempts with tx hashes), tests/receipts-twin/, tests/receipts-twin2/,
 tests/receipts-retry/.
+
+## v1.3 — tenant counter-photo stage (2026-11-16)
+
+### What the evidence path does now
+Every claim line is decided in two consensus-bound stages inside one
+assessment call. Stage 1 is the original jury over the landlord's photo
+pair, the lease and both parties' messages. If stage 1 returns a
+photo-based TENANT_DAMAGE line with a positive bucket and the tenant
+filed counter-photos for that line, the line is cached in a per-case
+scratch slot and a second jury call (stage 2) judges the tenant's own
+move-in / move-out pair for that line. Stage 2's photos pass the same
+SHA-256 binding as the landlord's, plus image-format magic bytes and a
+5 MB size cap, before any prompt runs; photos that fail verification
+record counter_verdict UNVERIFIED and the stage-1 line stands. A
+verified pair returns one folded verdict — REBUTS_PRE_EXISTING,
+REBUTS_NO_DAMAGE or DOES_NOT_REBUT — and deterministic code merges it:
+a rebuttal rewrites the line to bucket 0 (PRE_EXISTING /
+PRE_EXISTING_MATCH, or LANDLORD_RESPONSIBILITY / PHOTO_MISMATCH);
+DOES_NOT_REBUT leaves the stage-1 line untouched. The outcome is stored
+on the line as counter_verdict and exposed by get_deduction_schedule.
+If stage 2 cannot reach a verdict, the assessment fails as a retryable
+JURY_FAILURE and the cached stage-1 line is reused on the next attempt,
+so a photo-based deduction is never stored for a line whose verified
+counter-photos have not been judged.
+
+### Offline verification
+- tests/test_v13_counterstage.py: 10/10 (both rebuttal mappings,
+  DOES_NOT_REBUT passthrough, hash-mismatch and bad-magic and oversize
+  pairs short-circuit to UNVERIFIED with zero prompt calls, stage-2
+  failure keeps the cached line and the retry does not re-run stage 1,
+  no-photo and bucket-0 lines skip stage 2, appeal path).
+- tests/test_pure.py: 31/31 against the v1.3 source (no regressions).
+
+### Deployed artifact
+The readable source is 43,941 B, over Bradbury's ~39,000 B deployment
+wall, so the deployed artifact is a semantics-preserving compact form
+(37,170 B): python-minifier with import combining, literal hoisting,
+local renaming and dead-code removal all OFF; the two header lines are
+byte-identical to the readable source; the two files' ASTs compare
+equal, and both offline suites pass against the compact file as well.
+- Production: 0xf396F412910D173CFEA65dC0081401343d330b6C
+- Deploy tx: 0x7c8cbacbe6e65c70cafd46fdd378ee0f692faea79ef129fba4c0dd220560b2a4
+  (MAJORITY_AGREE, FINISHED_WITH_RETURN)
+- Source sha256: a1bb02591b4241df7301c255aeda63eb5a9ab73570de298d31e9149038fca0ad
+  (== DepositCourt.py in this repo)
+
+### Live proof (fast-clock twin, delta-only)
+Twin 0x220629736311851090bb81E233E0F81b3F929163 = the compact source
+with only the challenge and appeal windows at 600 s (sha256
+5e502ee1b5279c0da6eb57be3f28e19399b1b850411df0a0c0d10de0c255e650).
+Everything except the new stage stands on v1.1's completed live proof.
+- Case R (tenant counter move-in photo = the stained wall): stage 1
+  TENANT_DAMAGE, stage 2 REBUTS_PRE_EXISTING; stored line PRE_EXISTING,
+  bucket 0, PRE_EXISTING_MATCH, counter_verdict REBUTS_PRE_EXISTING;
+  deduction 0 wei; entitlements tenant 0.05 GEN / landlord 0 / fee 0;
+  tenant withdrew the full deposit. Assessment tx
+  0x2e23b12ab9cd432c2d2d384d8e1fc168c62c8fdeef25d881d7a08ecc6c7dc0d4
+  (5 attempts).
+- Case N (tenant counter-photos = clean move-in / stained move-out):
+  counter_verdict DOES_NOT_REBUT; line stands TENANT_DAMAGE, bucket
+  100, CLAUSE_BREACH; deduction 0.03 GEN; entitlements tenant 0.02 GEN
+  / landlord 0.0299 GEN / protocol fee 0.0001 GEN; all three withdrew.
+  Assessment tx
+  0xb96c0a8cdd953bf0f89ef61e4deac7051785efe3a5688404cb3b922a7e7079fa
+  (24 attempts across three driver runs — leader crashes and validator
+  disagreements on the vision path, the same host-side pattern recorded
+  for v1.1; no attempt changed state before the verdict landed).
+- Fund conservation held at every checkpoint; after both settlements
+  the twin's balance fell by exactly the released entitlements.
+- Drivers: tests/live-v13-proof.mjs, tests/live-v13-proof-resume.mjs,
+  tests/live-v13-proof-resume2.mjs; results tests/v13-proof-results.json;
+  receipts tests/receipts-v13proof/. Two driver runs were interrupted
+  by runtime restarts; after each, chain state was read and verified
+  before resuming, and no step was re-sent against state that already
+  held its result.
